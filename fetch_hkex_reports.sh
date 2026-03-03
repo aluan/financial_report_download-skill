@@ -5,32 +5,11 @@
 
 set -e
 
-# 简体转繁体函数
-convert_to_traditional() {
-    echo "$1" | iconv -f UTF-8 -t UTF-8 | sed \
-        -e 's/海底捞/海底撈/g' \
-        -e 's/螺/螺/g' \
-        -e 's/蒙牛/蒙牛/g' \
-        -e 's/乳业/乳業/g' \
-        -e 's/分众/分眾/g' \
-        -e 's/传媒/傳媒/g' \
-        -e 's/物业/物業/g' \
-        -e 's/服务/服務/g' \
-        -e 's/碧桂园/碧桂園/g' \
-        -e 's/保利/保利/g' \
-        -e 's/中海/中海/g' \
-        -e 's/集团/集團/g' \
-        -e 's/有限/有限/g' \
-        -e 's/公司/公司/g' \
-        -e 's/控股/控股/g' \
-        -e 's/发展/發展/g' \
-        -e 's/股份/股份/g'
-}
 
-COMPANY_NAME="${1:-}"
+COMPANY_NAME_TRADITIONAL="${1:-}"
 START_DATE="${2:-01/01/2024}"
 
-if [ -z "$COMPANY_NAME" ]; then
+if [ -z "$COMPANY_NAME_TRADITIONAL" ]; then
     echo "错误: 请提供公司名称"
     echo "用法: $0 <公司名称> [开始日期]"
     echo "示例: $0 海底捞 01/01/2025"
@@ -38,7 +17,6 @@ if [ -z "$COMPANY_NAME" ]; then
 fi
 
 # 将简体公司名称转换为繁体
-COMPANY_NAME_TRADITIONAL=$(convert_to_traditional "$COMPANY_NAME")
 
 echo "正在搜索 ${COMPANY_NAME_TRADITIONAL} 的财报..."
 echo "开始日期: ${START_DATE}"
