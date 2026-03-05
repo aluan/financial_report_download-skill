@@ -1,6 +1,6 @@
 # 披露易财报查询 Skill
 
-从香港交易所披露易平台自动查询上市公司的年报和中期报告。
+从香港交易所披露易平台与巨潮资讯网自动查询上市公司的年报和中期报告。
 
 ## 功能特性
 
@@ -9,12 +9,13 @@
 - 📄 提取年报和中期报告的PDF下载链接
 - 🌐 可视化浏览器模式，方便调试
 - 🔄 **自动简繁转换**：支持输入简体中文公司名称，会自动转换为繁体中文进行查询
+- 🇨🇳 **A股支持**：通过巨潮资讯网获取A股年报/半年度报告
 
 ## 安装
 
 ### 前置要求
 
-- [agent-browser](https://github.com/anthropics/agent-browser) - 浏览器自动化工具
+- [agent-browser](https://github.com/anthropics/agent-browser) - 浏览器自动化工具（港股与A股脚本均需）
 - Python 3.x（用于JSON格式化）
 - Bash shell
 
@@ -42,14 +43,19 @@ cp -r . ~/.claude/skills/fetch-hkex-reports/
 ### 直接使用脚本
 
 ```bash
-# 基本用法（支持简体中文）
+# 自动判断市场（推荐）
+./fetch_reports.sh 海底捞
+./fetch_reports.sh 平安银行 2024-01-01 2024-12-31
+
+# 强制A股或港股（可选）
+./fetch_reports.sh A:平安银行 2024-01-01 2024-12-31
+./fetch_reports.sh 港股:海底捞 01/01/2024
+
+# 仅港股
 ./fetch_hkex_reports.sh 海底捞
 
-# 指定起始日期
-./fetch_hkex_reports.sh 保利物业 01/01/2024
-
-# 查询最近一年的报告
-./fetch_hkex_reports.sh 碧桂园服务 01/01/2025
+# 仅A股
+./fetch_cninfo_reports.sh 平安银行 2024-01-01 2024-12-31
 ```
 
 ### 作为Claude Code Skill使用
@@ -63,8 +69,11 @@ cp -r . ~/.claude/skills/fetch-hkex-reports/
 
 ## 参数说明
 
-- `公司名称` (必需): 要查询的香港上市公司名称（支持简体或繁体中文）
-- `开始日期` (可选): 搜索起始日期，格式为 DD/MM/YYYY，默认为 01/01/2024
+- `公司名称` (必需): 要查询的公司名称或股票代码
+- `开始日期` (可选): 
+  - 港股脚本格式为 DD/MM/YYYY，默认为 01/01/2024
+  - A股脚本格式为 YYYY-MM-DD 或 DD/MM/YYYY，默认为当年 01-01
+- `结束日期` (可选, A股脚本): 格式为 YYYY-MM-DD 或 DD/MM/YYYY，默认为今天
 
 ## 输出格式
 
@@ -87,6 +96,7 @@ cp -r . ~/.claude/skills/fetch-hkex-reports/
 
 脚本通过以下步骤自动化查询流程：
 
+港股（披露易）：
 1. 打开披露易中文网站
 2. 输入公司名称（自动转换简体为繁体）
 3. 选择标题类别
@@ -95,11 +105,18 @@ cp -r . ~/.claude/skills/fetch-hkex-reports/
 6. 执行搜索
 7. 提取年报和中期报告的PDF链接
 
+A股（巨潮资讯网）：
+1. 提交公告查询请求
+2. 过滤年报/半年度报告PDF
+3. 生成完整PDF下载链接
+
 ## 注意事项
 
 - 公司名称支持简体或繁体中文，会自动转换为繁体进行查询
 - 日期格式必须为 DD/MM/YYYY（日/月/年）
 - 使用可视化模式（--headed）方便查看执行过程
+- 自动判断市场以股票代码为准（如 `600000`、`SH600000`、`SZ000001`），公司名称默认按港股处理
+- 如需强制A股或港股，可用前缀 `A:`、`A股:` 或 `HK:`、`港股:`
 - 常见公司名称转换示例：
   - 海底捞 → 海底撈
   - 物业 → 物業
@@ -127,6 +144,12 @@ cp -r . ~/.claude/skills/fetch-hkex-reports/
     "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0923/2024092300569_c.pdf"
   }
 ]
+```
+
+查询A股平安银行2024年度财报：
+
+```bash
+./fetch_cninfo_reports.sh "平安银行" "2024-01-01" "2024-12-31"
 ```
 
 ## 故障排除
