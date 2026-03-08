@@ -123,11 +123,13 @@ normalize_hk_date() {
 MARKET_OVERRIDE="$(detect_market_override "$COMPANY_KEY")"
 COMPANY_KEY="$(strip_prefix "$COMPANY_KEY")"
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 if [ "$MARKET_OVERRIDE" = "A" ] || is_a_share_code "$COMPANY_KEY"; then
     if [ "$DOWNLOAD_PDF" = "1" ]; then
-        ./fetch_cninfo_reports.sh "$COMPANY_KEY" "$START_DATE_INPUT" "$END_DATE_INPUT" --download --download-dir "$DOWNLOAD_DIR"
+        "$SCRIPT_DIR/fetch_cninfo_reports.sh" "$COMPANY_KEY" "$START_DATE_INPUT" "$END_DATE_INPUT" --download --download-dir "$DOWNLOAD_DIR"
     else
-        ./fetch_cninfo_reports.sh "$COMPANY_KEY" "$START_DATE_INPUT" "$END_DATE_INPUT"
+        "$SCRIPT_DIR/fetch_cninfo_reports.sh" "$COMPANY_KEY" "$START_DATE_INPUT" "$END_DATE_INPUT"
     fi
     exit 0
 fi
@@ -136,9 +138,9 @@ if [ "$MARKET_OVERRIDE" = "HK" ]; then
     START_DATE_HK="$(normalize_hk_date "$START_DATE_INPUT")"
     END_DATE_HK="$(normalize_hk_date "$END_DATE_INPUT")"
     if [ "$DOWNLOAD_PDF" = "1" ]; then
-        ./fetch_hkex_reports.sh "$COMPANY_KEY" "${START_DATE_HK:-01/01/2024}" "$END_DATE_HK" --download --download-dir "$DOWNLOAD_DIR"
+        "$SCRIPT_DIR/fetch_hkex_reports.sh" "$COMPANY_KEY" "${START_DATE_HK:-01/01/2024}" "$END_DATE_HK" --download --download-dir "$DOWNLOAD_DIR"
     else
-        ./fetch_hkex_reports.sh "$COMPANY_KEY" "${START_DATE_HK:-01/01/2024}" "$END_DATE_HK"
+        "$SCRIPT_DIR/fetch_hkex_reports.sh" "$COMPANY_KEY" "${START_DATE_HK:-01/01/2024}" "$END_DATE_HK"
     fi
     exit 0
 fi
@@ -147,7 +149,7 @@ fi
 START_DATE_HK="$(normalize_hk_date "$START_DATE_INPUT")"
 END_DATE_HK="$(normalize_hk_date "$END_DATE_INPUT")"
 if [ "$DOWNLOAD_PDF" = "1" ]; then
-    ./fetch_hkex_reports.sh "$COMPANY_KEY" "${START_DATE_HK:-01/01/2024}" "$END_DATE_HK" --download --download-dir "$DOWNLOAD_DIR"
+    "$SCRIPT_DIR/fetch_hkex_reports.sh" "$COMPANY_KEY" "${START_DATE_HK:-01/01/2024}" "$END_DATE_HK" --download --download-dir "$DOWNLOAD_DIR"
 else
-    ./fetch_hkex_reports.sh "$COMPANY_KEY" "${START_DATE_HK:-01/01/2024}" "$END_DATE_HK"
+    "$SCRIPT_DIR/fetch_hkex_reports.sh" "$COMPANY_KEY" "${START_DATE_HK:-01/01/2024}" "$END_DATE_HK"
 fi

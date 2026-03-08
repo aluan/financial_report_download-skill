@@ -30,7 +30,9 @@ cd fetch-hkex-reports-skill
 
 2. 赋予脚本执行权限：
 ```bash
-chmod +x fetch_hkex_reports.sh
+chmod +x scripts/fetch_hkex_reports.sh
+chmod +x scripts/fetch_cninfo_reports.sh
+chmod +x scripts/fetch_reports.sh
 ```
 
 3. （可选）作为Claude Code skill安装：
@@ -45,21 +47,21 @@ cp -r . ~/.claude/skills/fetch-hkex-reports/
 
 ```bash
 # 自动判断市场（推荐）
-./fetch_reports.sh 海底捞
-./fetch_reports.sh 平安银行 2024-01-01 2024-12-31
-./fetch_reports.sh 平安银行 2024-01-01 2024-12-31 --download
-./fetch_reports.sh 港股:海底捞 01/01/2025 31/12/2025 --download-dir ./pdfs
+scripts/fetch_reports.sh 海底捞
+scripts/fetch_reports.sh 平安银行 2024-01-01 2024-12-31
+scripts/fetch_reports.sh 平安银行 2024-01-01 2024-12-31 --download
+scripts/fetch_reports.sh 港股:海底捞 01/01/2025 31/12/2025 --download-dir ./pdfs
 
 # 强制A股或港股（可选）
-./fetch_reports.sh A:平安银行 2024-01-01 2024-12-31
-./fetch_reports.sh 港股:海底捞 01/01/2024
+scripts/fetch_reports.sh A:平安银行 2024-01-01 2024-12-31
+scripts/fetch_reports.sh 港股:海底捞 01/01/2024
 
 # 仅港股
-./fetch_hkex_reports.sh 海底捞
+scripts/fetch_hkex_reports.sh 海底捞
 
 # 仅A股
-./fetch_cninfo_reports.sh 平安银行 2024-01-01 2024-12-31
-./fetch_cninfo_reports.sh 平安银行 2024-01-01 2024-12-31 --download
+scripts/fetch_cninfo_reports.sh 平安银行 2024-01-01 2024-12-31
+scripts/fetch_cninfo_reports.sh 平安银行 2024-01-01 2024-12-31 --download
 ```
 
 ### 作为Claude Code Skill使用
@@ -139,7 +141,7 @@ A股（巨潮资讯网）：
 查询海底捞2025年以来的财报：
 
 ```bash
-./fetch_hkex_reports.sh "海底捞" "01/01/2025"
+scripts/fetch_hkex_reports.sh "海底捞" "01/01/2025"
 ```
 
 输出：
@@ -159,7 +161,7 @@ A股（巨潮资讯网）：
 查询A股平安银行2024年度财报：
 
 ```bash
-./fetch_cninfo_reports.sh "平安银行" "2024-01-01" "2024-12-31"
+scripts/fetch_cninfo_reports.sh "平安银行" "2024-01-01" "2024-12-31"
 ```
 
 ## 故障排除

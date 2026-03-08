@@ -24,16 +24,16 @@
 
 ```bash
 # 自动判断市场（推荐）
-./fetch_reports.sh 海底捞
-./fetch_reports.sh 平安银行 2024-01-01 2024-12-31
-./fetch_reports.sh 平安银行 2024-01-01 2024-12-31 --download
-./fetch_reports.sh 港股:海底捞 01/01/2025 31/12/2025 --download-dir ./pdfs
+scripts/fetch_reports.sh 海底捞
+scripts/fetch_reports.sh 平安银行 2024-01-01 2024-12-31
+scripts/fetch_reports.sh 平安银行 2024-01-01 2024-12-31 --download
+scripts/fetch_reports.sh 港股:海底捞 01/01/2025 31/12/2025 --download-dir ./pdfs
 ```
 
 ```bash
 # A股（直接脚本）
-./fetch_cninfo_reports.sh 平安银行 2024-01-01 2024-12-31
-./fetch_cninfo_reports.sh 平安银行 2024-01-01 2024-12-31 --download
+scripts/fetch_cninfo_reports.sh 平安银行 2024-01-01 2024-12-31
+scripts/fetch_cninfo_reports.sh 平安银行 2024-01-01 2024-12-31 --download
 ```
 
 **注意**：可以直接输入简体中文公司名称（如"海底捞"），脚本会自动转换为繁体中文（"海底撈"）进行查询。
